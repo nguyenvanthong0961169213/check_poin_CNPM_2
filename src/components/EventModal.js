@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 // import * as test from "../util"
-import dayjs, { Dayjs } from "dayjs";
+// import dayjs, { Dayjs } from "dayjs";
 
 const labelsClasses = [
     "indigo",
@@ -11,6 +11,7 @@ const labelsClasses = [
     "red",
     "purple",
 ];
+
 export default function EventModal() {
     const {
         setShowEventModal,
@@ -40,7 +41,6 @@ export default function EventModal() {
             day: daySelected.valueOf(),
             id: selectedEvent ? selectedEvent.id : Date.now(),
         };
-        console.log(daySelected.format("DD-MM-YY").valueOf());
         if (selectedEvent) {
             dispatchCalEvent({ type: "update", payload: calendarEvent });
         } else {
@@ -49,33 +49,34 @@ export default function EventModal() {
 
         setShowEventModal(false);
     }
-    
 
-    function onclickTimeNotification(){
-            var checkBox = document.getElementById("myCheck");
-            // var ngaychuyen=convertSolar2Lunar(dayjs().date.format(yy),dayjs().month(),dayjs().year.format(yy),7)
-            if (checkBox.checked === true){
-                // text.style.display = "block";
-                let holder=document.getElementById("holder")
-                   holder.innerHTML='<select id="list" className="ml-4"> <option>5 phút</option> <option>10 phút</option> <option>30 phút</option> <option>60 phút</option>'
 
-              } else {
-                let holder=document.getElementById("holder")
-                   holder.innerHTML=null
-                //    const now_day=dayjs().day()-1+19
-                //    var k=test.convertSolar2Lunar(now_day,dayjs().month()+1,dayjs().year(),+7)
-                //    console.log(k);
-                // console.log(dayjs().year("YY"));
-                //    let test_2=document.getElementById("test_2")
-                //    test_2.innerHTML='test.convertSolar2Lunar(dayjs().day(),dayjs().month(),dayjs().year(),7)'
-              }
-      
-     }
-     function setTime(){
-       
-     }
+    function onclickTimeNotification() {
+        var checkBox = document.getElementById("myCheck");
+        // var ngaychuyen=convertSolar2Lunar(dayjs().date.format(yy),dayjs().month(),dayjs().year.format(yy),7)
+        if (checkBox.checked === true) {
+            // text.style.display = "block";
+            let holder = document.getElementById("holder")
+            holder.innerHTML = '<select id="list" className="ml-4"> <option>5 phút</option> <option>10 phút</option> <option>30 phút</option> <option>60 phút</option>'
+
+        } else {
+            let holder = document.getElementById("holder")
+            holder.innerHTML = null
+            //    const now_day=dayjs().day()-1+19
+            //    var k=test.convertSolar2Lunar(now_day,dayjs().month()+1,dayjs().year(),+7)
+            //    console.log(k);
+            // console.log(dayjs().year("YY"));
+            //    let test_2=document.getElementById("test_2")
+            //    test_2.innerHTML='test.convertSolar2Lunar(dayjs().day(),dayjs().month(),dayjs().year(),7)'
+        }
+    }
+
+    function setTime() { }
+
     var showdate = new Date(),
-        displaytime = showdate.getHours() + ':' + showdate.getMinutes();
+        displaytime = showdate.getHours() + ':' + showdate.getMinutes(),
+        displayDate = new Date(showdate.setDate(showdate.getDate())).toISOString().split('T')[0];
+
     return (
         <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
             <form className="bg-white rounded-lg shadow-2xl w-1/3">
@@ -114,34 +115,32 @@ export default function EventModal() {
                             placeholder="Add title"
                             value={title}
                             required
-                            className="overflow-wrap: normal pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
+                            className="overflow-wrap: normal pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2
+                             border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
                             onChange={(e) => setTitle(e.target.value)}
                         />
                         <span className="material-icons-outlined text-blue-700">
                             schedule
                         </span>
-                        <p><input id="myTime" type="time" className="w-2/5 mr-5" onChange={setTime}  ></input>
-                            <span className="border-0">{daySelected.format("DD/MM/YYYY")}</span></p>
+                        <p>
+                            <input type="time" className="w-2/5 mr-5" defaultValue={displaytime} ></input>
+                            <input type="date" id="start" min={daySelected.format("YYYY-MM-DD")} max="" defaultValue={displayDate}></input>
+                        </p>
 
                         <span className="material-icons-outlined text-red-700">
                             schedule
                         </span>
-                        <p><input type="time" className="w-2/5 mr-5" value={displaytime} ></input><input type="date" id="start" name="trip-start"
+                        <p><input type="time" className="w-2/5 mr-5" ></input><input type="date" id="start" name="trip-start"
                             min={daySelected.format("YYYY-MM-DD")} max=""></input></p>
-                        
-
-                        <span className="material-icons-outlined text-blue-700">
-                            schedule
+                        <span className="material-icons-outlined  ">
+                            notifications_active
                         </span>
                         <p>
-                        Thông báo
-                         <input id="myCheck" type="checkbox" className="ml-4" onClick={onclickTimeNotification} ></input>
-                         <span id="holder" className="ml-4"></span>
-                         <span id="test_2">
-                            
-                         </span>
-                       </p> 
-                        
+                            <input id="myCheck" type="checkBox" className="mr-8" onClick={onclickTimeNotification} value="Thêm thông báo" />
+                            <span id="holder" className="mr-4"></span>
+                            <span id="test_2">
+                            </span>
+                        </p>
                         <span className="material-icons-outlined text-gray-400">
                             segment
                         </span>
@@ -151,7 +150,8 @@ export default function EventModal() {
                             placeholder="Add a description"
                             value={description}
                             required
-                            className=" t-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500 "
+                            className=" t-3 border-0 text-gray-600 pb-2 w-full border-b-2
+                             border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500 "
                             onChange={(e) => setDescription(e.target.value)}
                         />
                         <span className="material-icons-outlined text-gray-400">
