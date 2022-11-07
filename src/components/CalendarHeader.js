@@ -2,13 +2,19 @@ import dayjs from "dayjs";
 import React, { useContext } from "react";
 import logo from "../assets/logo.png";
 import GlobalContext from "../context/GlobalContext";
+
+export let flag_handleMonth;
 export default function CalendarHeader() {
+  
+  flag_handleMonth=true;
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
+    flag_handleMonth=true;
   }
   function handleNextMonth() {
     setMonthIndex(monthIndex + 1);
+    flag_handleMonth=true;
   }
   function handleReset() {
     setMonthIndex(

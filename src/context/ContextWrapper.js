@@ -76,6 +76,8 @@ export default function ContextWrapper(props) {
     });
   }, [savedEvents]);
 
+ 
+
   useEffect(() => {
     if (smallCalendarMonth !== null) {
       setMonthIndex(smallCalendarMonth);

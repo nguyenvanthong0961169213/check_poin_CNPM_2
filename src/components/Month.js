@@ -1,8 +1,11 @@
 import React from "react";
 import Day from "./Day";
+
 export default function Month({ month }) {
+
   function getEvent(){
     // Call owr ddaay
+    
     var result = [];
     result.map(s => {
       return {
@@ -29,4 +32,7 @@ export default function Month({ month }) {
       ))}
     </div>
   );
+  
+
 }
+
