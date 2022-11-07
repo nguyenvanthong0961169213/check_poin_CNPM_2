@@ -71,12 +71,9 @@ export default function EventModal() {
               }
       
      }
-    
      function setTime(){
        
-       
      }
-     
     var showdate = new Date(),
         displaytime = showdate.getHours() + ':' + showdate.getMinutes();
     return (
