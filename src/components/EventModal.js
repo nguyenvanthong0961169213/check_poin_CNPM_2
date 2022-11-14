@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
+import dayjs from "dayjs";
 // import * as test from "../util"
 // import dayjs, { Dayjs } from "dayjs";
 
@@ -11,6 +12,8 @@ const labelsClasses = [
     "red",
     "purple",
 ];
+
+  
 
 export default function EventModal() {
     const {
@@ -30,24 +33,80 @@ export default function EventModal() {
         selectedEvent
             ? labelsClasses.find((lbl) => lbl === selectedEvent.label)
             : labelsClasses[0]
+           
     );
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log("DM", selectedLabel)
         const calendarEvent = {
             title,
             description,
             label: selectedLabel,
-            day: daySelected.valueOf(),
-            id: selectedEvent ? selectedEvent.id : Date.now(),
+            Day: daySelected.valueOf(),
+            //id: selectedEvent ? selectedEvent.id : Date.now(),
         };
+        
         if (selectedEvent) {
-            dispatchCalEvent({ type: "update", payload: calendarEvent });
+            //dispatchCalEvent({ type: "update", payload: calendarEvent });
+            UpdateEvent(calendarEvent);
         } else {
-            dispatchCalEvent({ type: "push", payload: calendarEvent });
+            CreateEvent(calendarEvent);
+            //dispatchCalEvent({ type: "push", payload: calendarEvent });
         }
+        window.location.reload(false);
+        //setShowEventModal(false);
 
-        setShowEventModal(false);
+    }
+    function UpdateEvent(item){
+        let response= fetch("https://localhost:5001/api/Events/Update", {
+            method: 'Post',
+            body: JSON.stringify({
+                "id": selectedEvent.id,
+                "title": item.title,
+                "startTime": item.Date,
+                "startDate": item.Date,
+                "endDate": item.Date,
+                "endTime": item.Date,
+                "statusNotification": false,
+                "timeNotification": item.Date,
+                "timeBeforNotification": 5,
+                "color": item.label,
+                "description": item.description
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+              },
+          });
+    }
+
+    function CreateEvent(item){
+        item.Date = dayjs(daySelected.valueOf()).format("YYYY/MM/DD");
+        let response= fetch("https://localhost:5001/api/Events/Create", {
+            method: 'Post',
+            body: JSON.stringify({
+                "title": item.title,
+                //"startTime": item.Date,
+                //"startDate": item.Date,
+                //"endDate": item.Date,
+                //"endTime": item.Date,
+                "statusNotification": false,
+                //"timeNotification": item.Date,
+                "timeBeforNotification": 5,
+                "color": item.label,
+                "description": item.description
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+              },
+          });
+    }
+    function deleteEvent(){
+        console.log("https://localhost:5001/api/Events/"+selectedEvent.id);
+        let response= fetch("https://localhost:5001/api/Events/"+selectedEvent.id, {
+            method: 'DELETE',
+          });
+          window.location.reload(false);
     }
 
 
@@ -87,12 +146,14 @@ export default function EventModal() {
                     <div>
                         {selectedEvent && (
                             <span
-                                onClick={() => {
-                                    dispatchCalEvent({
-                                        type: "delete",
-                                        payload: selectedEvent,
-                                    });
-                                    setShowEventModal(false);
+                                onClick={
+                                    () => {
+                                    // dispatchCalEvent({
+                                    //     type: "delete",
+                                    //     payload: selectedEvent,
+                                    // });
+                                    // setShowEventModal(false);
+                                    deleteEvent();
                                 }}
                                 className="material-icons-outlined text-gray-400 cursor-pointer"
                             >

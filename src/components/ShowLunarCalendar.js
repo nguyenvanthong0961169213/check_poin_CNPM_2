@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 import {ShowLunarCalendar2} from "./Day"
-
-
+import { check_flag_show_2 } from "..";
 export default function ShowLunarCalendar() {
     // const { ShowLunar, updateShowLunar } = useContext(GlobalContext);
     return (
@@ -13,6 +12,7 @@ export default function ShowLunarCalendar() {
               type="checkbox"
               className={`form-checkbox h-5 w-5 rounded focus:ring-0 cursor-pointer`}
               onChange={setShow}
+              
             />
          <span className="text-gray-700 ml-2">Show</span>   
          
@@ -22,11 +22,16 @@ export default function ShowLunarCalendar() {
 
 export function setShow(){
        const checkbox = document.getElementById('myCheckbox')
-       checkbox.addEventListener('change', (event) => {
-            if (event.currentTarget.checked) {
-                ShowLunarCalendar2()
-            } else {
-                
-            }
-        })
+      
+        checkbox.addEventListener('change', (event) => {
+          if (event.currentTarget.checked) {
+            check_flag_show_2(event.currentTarget.checked)
+            //  App() 
+
+          } else {
+            check_flag_show_2(event.currentTarget.checked)
+    
+            // App()
+          }
+      })
 }  

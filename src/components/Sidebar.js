@@ -8,7 +8,7 @@ export default function Sidebar() {
     <aside className="border p-5 w-64">
       <CreateEventButton />
       <SmallCalendar />
-      <Labels />
+      {/* <Labels /> */}
       <ShowLunar />
     </aside>
   );

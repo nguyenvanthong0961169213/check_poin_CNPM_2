@@ -36,24 +36,7 @@ if (a11 >= monthStart) {
 }
  lunarDay = dayNumber-monthStart+1;
  return lunarDay
-diff = parseInt((monthStart - a11)/29);
-lunarLeap = 0;
-lunarMonth = diff+11;
-if (b11 - a11 > 365) {
- leapMonthDiff = getLeapMonthOffset(a11, timeZone);
- if (diff >= leapMonthDiff) {
-  lunarMonth = diff + 10;
-  if (diff == leapMonthDiff) {
-   lunarLeap = 1;
-  }
- }
-}
-if (lunarMonth > 12) {
- lunarMonth = lunarMonth - 12;
-}
-if (lunarMonth >= 11 && diff < 4) {
- lunarYear -= 1;
-}
+
 }
 
 export function convertSolar2LunarMonth(dd, mm, yy, timeZone)
